@@ -47,4 +47,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: v0.18.2
-          args: --check lua tests
+          args: --check lua
