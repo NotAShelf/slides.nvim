@@ -15,7 +15,7 @@
 
 ```lua
 use {
-  'aspeddro/slides.nvim',
+  'notashelf/slides.nvim',
   config = function ()
     require'slides'.setup{}
   end
@@ -36,11 +36,11 @@ require'slides'.setup{
 
 Open current file
 
-```
+```console
 :Slides
 ```
 
-```
+```console
 :Slides [path/to/file.md]
 ```
 

@@ -6,7 +6,9 @@ local state = {
 
 local config = {
   bin = 'slides',
-  fullscreen = true
+  fullscreen = true,
+  style = "minimal",
+  border = "shadow"
 }
 
 function M.close()
@@ -22,24 +24,24 @@ function M.setup(user_config)
 end
 
 function M.show(file)
-
   local window = vim.api.nvim_get_current_win()
 
   local opts = {
-    style = "minimal",
+    style = config.style,
     relative = "editor",
     width = config.fullscreen and vim.api.nvim_get_option("columns") or vim.api.nvim_win_get_width(window),
     height = config.fullscreen and vim.api.nvim_get_option("lines") or vim.api.nvim_win_get_height(window),
     row = 1,
     col = 1,
-    border = "shadow",
+    border = config.border,
   }
 
   local input = string.len(file) == 0 and vim.api.nvim_get_current_buf() or file
   local is_file = type(input) == 'string'
-  local filetype = is_file and vim.fn.fnamemodify(input, ':e'):gsub("\"", "") or vim.api.nvim_buf_get_option(input, 'filetype')
+  local filetype = is_file and vim.fn.fnamemodify(input, ':e'):gsub("\"", "") or
+      vim.api.nvim_buf_get_option(input, 'filetype')
 
-  if not vim.tbl_contains({'md', 'markdown'}, filetype) then
+  if not vim.tbl_contains({ 'md', 'markdown' }, filetype) then
     vim.api.nvim_err_writeln('Invalid filetype')
     return
   end
@@ -61,7 +63,6 @@ function M.show(file)
       M.close()
     end
   })
-
 end
 
 return M
