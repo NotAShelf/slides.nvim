@@ -1,0 +1,50 @@
+name: Run tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  luacheck:
+    name: Luacheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare
+        run: |
+          sudo apt-get update
+          sudo add-apt-repository universe
+          sudo apt install luarocks -y
+          sudo luarocks install luacheck
+
+      - name: Run Luacheck
+        run: luacheck lua tests
+
+  typecheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: stevearc/nvim-typecheck-action@v1
+        with:
+          path: lua
+
+  stylua:
+    name: StyLua
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Stylua
+        uses: JohnnyMorganz/stylua-action@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: v0.18.2
+          args: --check lua tests
