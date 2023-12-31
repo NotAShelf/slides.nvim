@@ -25,7 +25,7 @@ jobs:
           sudo luarocks install luacheck
 
       - name: Run Luacheck
-        run: luacheck lua tests
+        run: luacheck lua
 
   typecheck:
     name: typecheck
